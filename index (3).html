@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>徐少勇SDGs 性別平權</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Noto Sans TC', sans-serif;
+            user-select: none;
+        }
+        .font-fun {
+            font-family: 'Fredoka', 'Noto Sans TC', sans-serif;
+        }
+
+        /* Village Background Styling */
+        .bg-village {
+            background: linear-gradient(to bottom, #7dd3fc 0%, #bae6fd 40%, #86efac 40%, #4ade80 100%);
+        }
+
+        /* Amusement Park Background Styling */
+        .bg-park {
+            background: linear-gradient(to bottom, #f472b6 0%, #fbcfe8 35%, #fde047 35%, #fef08a 100%);
+        }
+
+        /* Hut Bounce Animation */
+        .hut-hover {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .hut-hover:hover {
+            transform: scale(1.1) translateY(-8px);
+            filter: drop-shadow(0 12px 10px rgba(0,0,0,0.15));
+        }
+
+        /* Flower Floating Animation */
+        @keyframes float-flower {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+        .animate-float {
+            animation: float-flower 3s ease-in-out infinite;
+        }
+
+        /* Certificate Print Styling */
+        @media print {
+            body {
+                background: white !important;
+                padding: 0 !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-area {
+                box-shadow: none !important;
+                border: 12px double #0d9488 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 40px !important;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-900 text-slate-800 flex flex-col justify-between overflow-x-hidden">
+
+    <!-- Navbar / Header (Dynamic based on Page) -->
+    <header class="w-full bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40 px-4 sm:px-8 py-3 shadow-md no-print">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            
+            <!-- Header Left Title -->
+            <div class="flex items-center gap-3">
+                <div class="bg-gradient-to-tr from-teal-500 to-emerald-400 text-white p-2.5 rounded-2xl shadow-md">
+                    <i class="fa-solid fa-venus-mars text-2xl"></i>
+                </div>
+                <div>
+                    <h1 id="page-title" class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+                        徐少勇SDGs 性別平權
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Header Right Score/Stats & Page Switcher -->
+            <div class="flex items-center gap-4">
+                <div class="bg-teal-50 border-2 border-teal-200 px-4 py-1.5 rounded-2xl flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-trophy text-amber-500 text-lg"></i>
+                    <span id="score-label" class="text-xs sm:text-sm font-bold text-teal-800">答對題數：</span>
+                    <span id="score-counter" class="text-lg sm:text-xl font-black text-teal-600">0 / 10</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN VIEW CONTAINER -->
+    <main class="flex-1 flex flex-col justify-center items-center relative">
+
+        <!-- ================= VIEW 1: INDEX.HTML (第一關: 村莊問答) ================= -->
+        <section id="view-index" class="w-full min-h-[calc(100vh-65px)] bg-village relative overflow-hidden flex flex-col justify-between p-4 sm:p-8">
+            
+            <!-- Environment Decorations -->
+            <div class="absolute top-8 left-10 text-white/80 text-6xl opacity-80"><i class="fa-solid fa-cloud"></i></div>
+            <div class="absolute top-16 right-20 text-white/80 text-8xl opacity-80"><i class="fa-solid fa-cloud"></i></div>
+            <div class="absolute top-6 left-1/2 text-yellow-300 text-7xl animate-pulse"><i class="fa-solid fa-sun"></i></div>
+
+            <!-- Trees Background -->
+            <div class="absolute top-[35%] w-full flex justify-around px-8 text-emerald-600 text-5xl opacity-90 pointer-events-none">
+                <i class="fa-solid fa-tree"></i><i class="fa-solid fa-tree"></i><i class="fa-solid fa-tree"></i>
+                <i class="fa-solid fa-tree"></i><i class="fa-solid fa-tree"></i><i class="fa-solid fa-tree"></i>
+            </div>
+
+            <div class="text-center z-10 my-4 bg-white/80 backdrop-blur-sm max-w-xl mx-auto py-2 px-6 rounded-full shadow-md">
+                <p class="text-sm sm:text-base font-bold text-teal-900">
+                    <i class="fa-solid fa-house-chimney text-amber-600 mr-2"></i>點擊村莊中的 10 座茅草屋，回答 SDG 5 性別平權議題！(需答對 8 題通關)
+                </p>
+            </div>
+
+            <!-- Huts Grid Map (10 Huts) -->
+            <div class="max-w-6xl mx-auto w-full grid grid-cols-2 sm:grid-cols-5 gap-6 sm:gap-8 z-10 my-auto py-6">
+                <!-- Generated dynamically or styled -->
+                <script>
+                    // Render 10 huts in View 1
+                    document.write(Array.from({length: 10}).map((_, i) => `
+                        <div onclick="openHutQuestion(${i})" id="hut-${i}" class="hut-hover cursor-pointer flex flex-col items-center group">
+                            <div class="relative">
+                                <!-- Roof SVG -->
+                                <svg class="w-20 h-16 sm:w-24 sm:h-20 drop-shadow-md" viewBox="0 0 100 80">
+                                    <polygon points="50,5 5,75 95,75" fill="#d97706" />
+                                    <polygon points="50,12 12,70 88,70" fill="#f59e0b" />
+                                    <path d="M 5,75 Q 50,85 95,75" stroke="#b45309" stroke-width="4" fill="none"/>
+                                </svg>
+                                <!-- House Body -->
+                                <div class="w-16 sm:w-20 h-14 sm:h-16 bg-amber-100 border-2 border-amber-800 mx-auto -mt-2 rounded-b-lg flex flex-col items-center justify-end p-1 relative shadow-inner">
+                                    <div class="w-6 h-9 bg-amber-900 rounded-t-md flex items-center justify-center">
+                                        <div class="w-1.5 h-1.5 bg-yellow-400 rounded-full ml-2"></div>
+                                    </div>
+                                    <!-- Completed Badge -->
+                                    <div id="hut-badge-${i}" class="hidden absolute -top-3 -right-3 bg-emerald-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs font-black shadow-md border-2 border-white">
+                                        <i class="fa-solid fa-check"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="mt-2 text-xs sm:text-sm font-black bg-white/90 text-slate-800 px-3 py-0.5 rounded-full shadow border border-amber-200">
+                                茅草屋 ${i + 1}
+                            </span>
+                        </div>
+                    `).join(''));
+                </script>
+            </div>
+            
+            <div class="h-8"></div>
+        </section>
+
+
+        <!-- ================= VIEW 2: LEVEL2.HTML (第二關: 遊樂園拖貼情境題) ================= -->
+        <section id="view-level2" class="hidden w-full min-h-[calc(100vh-65px)] bg-park relative overflow-hidden flex flex-col justify-between p-4 sm:p-8">
+            
+            <!-- Amusement Park Decorative SVG Elements -->
+            <div class="absolute top-4 left-6 text-pink-400/40 text-9xl pointer-events-none">
+                <i class="fa-solid fa-ferris-wheel"></i>
+            </div>
+            <div class="absolute top-10 right-10 text-amber-500/30 text-8xl pointer-events-none">
+                <i class="fa-solid fa-fort-awesome"></i>
+            </div>
+
+            <!-- Page 2 Header Banner -->
+            <div class="text-center z-10 my-2 bg-white/90 backdrop-blur-sm max-w-2xl mx-auto py-2.5 px-6 rounded-2xl shadow-md border border-pink-200">
+                <p class="text-sm sm:text-base font-bold text-pink-900">
+                    <i class="fa-solid fa-icons text-pink-600 mr-2"></i>點擊網頁下方的 3 個花朵開啟情境題組，將行為卡片拖曳分門別類！
+                </p>
+            </div>
+
+            <!-- Drag & Drop Zones Area -->
+            <div class="max-w-5xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-6 z-10 my-4">
+                
+                <!-- Equality Drop Box -->
+                <div id="drop-equal" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'equal')" 
+                    class="bg-emerald-50/90 border-4 border-dashed border-emerald-400 rounded-3xl p-4 min-h-[200px] flex flex-col shadow-lg transition duration-200">
+                    <div class="flex items-center gap-2 text-emerald-700 font-black text-lg mb-3 pb-2 border-b border-emerald-200">
+                        <i class="fa-solid fa-circle-check text-xl"></i>
+                        <span>性別平等 (Equality)</span>
+                    </div>
+                    <div id="box-equal-items" class="flex-1 flex flex-wrap gap-2 content-start">
+                        <!-- Dropped cards appear here -->
+                    </div>
+                </div>
+
+                <!-- Inequality Drop Box -->
+                <div id="drop-unequal" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'unequal')"
+                    class="bg-rose-50/90 border-4 border-dashed border-rose-400 rounded-3xl p-4 min-h-[200px] flex flex-col shadow-lg transition duration-200">
+                    <div class="flex items-center gap-2 text-rose-700 font-black text-lg mb-3 pb-2 border-b border-rose-200">
+                        <i class="fa-solid fa-circle-xmark text-xl"></i>
+                        <span>性別不平等 (Inequality)</span>
+                    </div>
+                    <div id="box-unequal-items" class="flex-1 flex flex-wrap gap-2 content-start">
+                        <!-- Dropped cards appear here -->
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Interactive Flowers Area (Bottom Half - Random Positioned) -->
+            <div id="flower-container" class="relative w-full max-w-5xl mx-auto h-48 z-20 mt-auto">
+                <!-- 3 Flowers randomly placed via JS -->
+            </div>
+
+        </section>
+
+
+        <!-- ================= VIEW 3: CERTIFICATE.HTML (第三頁: 學習證書) ================= -->
+        <section id="view-certificate" class="hidden w-full min-h-[calc(100vh-65px)] bg-slate-100 py-10 px-4 flex flex-col items-center justify-center">
+            
+            <!-- Controls Above Certificate -->
+            <div class="no-print max-w-3xl w-full bg-white p-6 rounded-3xl shadow-md border border-slate-200 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="w-full sm:w-auto flex-1">
+                    <label for="user-name-input" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">請輸入您的姓名</label>
+                    <input type="text" id="user-name-input" placeholder="例如：徐少勇" value="徐少勇" oninput="updateCertName(this.value)"
+                        class="w-full px-4 py-2.5 rounded-xl border-2 border-teal-300 focus:border-teal-500 focus:outline-none font-bold text-slate-800">
+                </div>
+                
+                <div class="flex gap-3 w-full sm:w-auto">
+                    <button onclick="window.print()" class="flex-1 sm:flex-none bg-gradient-to-r from-teal-500 to-emerald-500 text-white px-6 py-3 rounded-xl font-bold shadow-lg shadow-teal-500/20 hover:scale-105 active:scale-95 transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-print"></i>
+                        <span>列印 / 下載證書</span>
+                    </button>
+                    <button onclick="switchView('index')" class="bg-slate-200 text-slate-700 px-4 py-3 rounded-xl font-bold hover:bg-slate-300 transition">
+                        回到首頁
+                    </button>
+                </div>
+            </div>
+
+            <!-- Certificate Printable Paper -->
+            <div class="print-area max-w-3xl w-full bg-white border-[14px] border-double border-teal-700 rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden text-center flex flex-col items-center justify-between min-h-[550px]">
+                
+                <!-- Inner Decorative Corner Borders -->
+                <div class="absolute top-3 left-3 w-12 h-12 border-t-4 border-l-4 border-teal-600"></div>
+                <div class="absolute top-3 right-3 w-12 h-12 border-t-4 border-r-4 border-teal-600"></div>
+                <div class="absolute bottom-3 left-3 w-12 h-12 border-b-4 border-l-4 border-teal-600"></div>
+                <div class="absolute bottom-3 right-3 w-12 h-12 border-b-4 border-r-4 border-teal-600"></div>
+
+                <!-- Certificate Header -->
+                <div class="space-y-2 mt-4">
+                    <div class="inline-block bg-teal-100 text-teal-800 px-4 py-1 rounded-full font-bold text-sm tracking-widest mb-2">
+                        SDGs永續發展目標 — 5 性別平等
+                    </div>
+                    <h2 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight font-fun">榮譽學習證書</h2>
+                    <p class="text-slate-400 font-serif italic text-sm">CERTIFICATE OF ACHIEVEMENT</p>
+                </div>
+
+                <!-- Certificate Body -->
+                <div class="my-8 space-y-4 max-w-xl">
+                    <p class="text-slate-600 text-base sm:text-lg font-medium">茲證明學員</p>
+                    <h3 id="cert-display-name" class="text-3xl sm:text-4xl font-black text-teal-700 underline decoration-teal-300 decoration-4 underline-offset-8">
+                        徐少勇
+                    </h3>
+                    <p class="text-slate-700 text-base sm:text-lg leading-relaxed pt-2">
+                        順利通過「徐少勇SDGs 性別平權」地圖挑戰關卡，展現卓越的性別平等觀念與素養，特頒此證，獲封稱號：
+                    </p>
+                    
+                    <!-- Title Badge -->
+                    <div class="pt-2">
+                        <span class="inline-block bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-white font-black text-xl sm:text-2xl px-8 py-2.5 rounded-2xl shadow-lg border-2 border-white tracking-wider">
+                            ✨ SDGs 性別平權小達人 ✨
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Certificate Footer Seal & Date -->
+                <div class="w-full flex justify-between items-end border-t border-slate-200 pt-6 mt-4">
+                    <div class="text-left text-xs text-slate-500 space-y-1">
+                        <p>頒發日期：<span id="cert-date">2026-11-02</span></p>
+                        <p>驗證單位：徐少勇SDGs 永續推廣委員會</p>
+                    </div>
+                    
+                    <!-- Official Gold Medal SVG Seal -->
+                    <div class="w-20 h-20 bg-amber-400 rounded-full flex items-center justify-center border-4 border-amber-200 shadow-md text-amber-900 flex-col">
+                        <i class="fa-solid fa-award text-3xl"></i>
+                        <span class="text-[9px] font-black tracking-tighter">SDGs 5 SEAL</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= MODALS & POPUPS ================= -->
+
+    <!-- Question Modal (Level 1) -->
+    <div id="modal-q1" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100 flex flex-col gap-6 relative">
+            
+            <div class="flex justify-between items-center">
+                <span id="q1-number" class="bg-amber-100 text-amber-800 font-bold px-3 py-1 rounded-full text-xs">
+                    題目 1 / 10
+                </span>
+                <button onclick="closeModal('modal-q1')" class="text-slate-400 hover:text-slate-600 text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <h3 id="q1-text" class="text-lg sm:text-xl font-bold text-slate-900 leading-snug">
+                <!-- Question content -->
+            </h3>
+
+            <div id="q1-options" class="flex flex-col gap-3">
+                <!-- Options buttons -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Flower Question Modal (Level 2) -->
+    <div id="modal-flower" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-slate-100 flex flex-col gap-4">
+            
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-flower text-pink-500 text-xl"></i>
+                    <h3 id="flower-title" class="font-bold text-slate-900 text-lg">花朵情境題組</h3>
+                </div>
+                <button onclick="closeModal('modal-flower')" class="text-slate-400 hover:text-slate-600 text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <p class="text-xs text-slate-500 font-medium">請將下列 2 個情境卡片拖曳（或直接點選按鈕分類）至正確的框框中：</p>
+
+            <div id="flower-cards-container" class="flex flex-col gap-3 my-2">
+                <!-- Cards to classify -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Level Result Modal (Used for L1 failed / passed, and L2 final grade) -->
+    <div id="modal-result" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl text-center flex flex-col items-center gap-5 border border-slate-100 animate-bounce-in">
+            
+            <div id="result-icon-box" class="w-20 h-20 rounded-full flex items-center justify-center text-4xl shadow-inner">
+                <!-- Dynamic icon -->
+            </div>
+
+            <div class="space-y-2">
+                <h3 id="result-title" class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+                    <!-- Title -->
+                </h3>
+                <p id="result-desc" class="text-slate-600 font-medium text-sm sm:text-base">
+                    <!-- Description -->
+                </p>
+            </div>
+
+            <div id="result-actions" class="w-full pt-2 flex flex-col gap-3">
+                <!-- Dynamic Action Buttons -->
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer (No Print) -->
+    <footer class="w-full bg-white border-t border-slate-200 py-3 text-center text-xs text-slate-400 font-medium no-print">
+        徐少勇SDGs 性別平權 — 永續發展目標 5 數位學習教材
+    </footer>
+
+
+    <!-- ================= GAME JAVASCRIPT LOGIC ================= -->
+    <script>
+        // -------------------------------------------------------------
+        // DATA: Level 1 Questions (SDG 5 Gender Equality - 10 Questions)
+        // -------------------------------------------------------------
+        const questionsL1 = [
+            { q: "關於家務分工，下列何者才是符合性別平權的精神？", options: ["家務是女性的責任", "依能力與時間共同分擔", "男主人只需負責工作", "長輩指定女性晚輩做"], ans: 1 },
+            { q: "在職場招聘時，公司應該如何挑選合適的人選？", options: ["限定特定性別", "根據專業能力與經驗", "優先考慮男性主管", "女性薪資給予八折"], ans: 1 },
+            { q: "「男生不能哭，女生不能太粗魯」這種說法屬於？", options: ["性別刻板印象", "健康的社會規範", "生理學事實", "國際法規標準"], ans: 0 },
+            { q: "SDGs Goal 5 的核心目標是什麼？", options: ["實現性別平等並賦予所有婦女和女童權力", "促進經濟高速成長", "減少工業污染", "發展太空科技"], ans: 0 },
+            { q: "同工同酬是指什麼觀念？", options: ["同職等男性獲得高薪", "從事相同工作獲同等報酬", "依結婚狀態給予津貼", "依年齡給予同等報酬"], ans: 1 },
+            { q: "在選擇學校社團或科系時，應該依據什麼？", options: ["性別適合度", "社會對性別的期待", "個人的興趣與能力", "父母的性別偏好"], ans: 2 },
+            { q: "當遇到性別歧視或言語騷擾時，應該如何處理？", options: ["忍氣吞聲隱忍", "明確拒絕並尋求正當管道申訴", "自認倒楣離職", "跟著起鬨笑笑過去"], ans: 1 },
+            { q: "下列哪一種行為有助於推動科技領域的性別平權？", options: ["鼓勵各性別青年參與STEM領域", "規定理工科系僅招收男生", "認為女生不擅長邏輯思考", "限制女性擔任工程師"], ans: 0 },
+            { q: "關於育嬰假（育嬰留職停薪），以下何者正確？", options: ["僅有女性可以申請", "父母雙方皆依法有權申請", "申請者會自動被解雇", "男性申請會被懲罰"], ans: 1 },
+            { q: "學習性別平權的主要目的是什麼？", options: ["讓特定性別擁有特權", "讓每個人不分性別都能自由發揮潛能", "取代所有傳統文化", "增加政府稅收"], ans: 1 }
+        ];
+
+        // -------------------------------------------------------------
+        // DATA: Level 2 Scenario Questions (3 Sets / 6 Drag items)
+        // -------------------------------------------------------------
+        const flowerSetsL2 = [
+            {
+                id: 0,
+                title: "花朵 1：家庭與日常生活情境",
+                items: [
+                    { id: "item-1", text: "「媽媽負責煮飯洗碗，爸爸負責看電視休息」", type: "unequal" },
+                    { id: "item-2", text: "「家人討論後，由爸媽輪流做飯與輔導功課」", type: "equal" }
+                ]
+            },
+            {
+                id: 1,
+                title: "花朵 2：學校與職涯選擇情境",
+                items: [
+                    { id: "item-3", text: "「男生也可以選擇護理系，女生也可以成為優秀的土木工程師」", type: "equal" },
+                    { id: "item-4", text: "「男生選文科沒前途，女生讀理工太辛苦了」", type: "unequal" }
+                ]
+            },
+            {
+                id: 2,
+                title: "花朵 3：職場與尊嚴情緒情境",
+                items: [
+                    { id: "item-5", text: "「不論男女，表現情緒表達脆弱都是勇敢且正常的」", type: "equal" },
+                    { id: "item-6", text: "「公司升遷評估時，因為預計結婚而扣除女性分數」", type: "unequal" }
+                ]
+            }
+        ];
+
+        // -------------------------------------------------------------
+        // STATE VARIABLES
+        // -------------------------------------------------------------
+        let currentView = 'index'; // 'index' | 'level2' | 'certificate'
+        
+        // Level 1 State
+        let scoreL1 = 0;
+        let completedHuts = new Array(10).fill(false);
+        
+        // Level 2 State
+        let scoreL2 = 0;
+        let classifiedItems = {}; // itemId -> 'equal' | 'unequal'
+
+        // -------------------------------------------------------------
+        // VIEW SWITCHING LOGIC
+        // -------------------------------------------------------------
+        function switchView(viewName) {
+            currentView = viewName;
+            
+            document.getElementById('view-index').classList.add('hidden');
+            document.getElementById('view-level2').classList.add('hidden');
+            document.getElementById('view-certificate').classList.add('hidden');
+            
+            const pageTitle = document.getElementById('page-title');
+            const scoreCounter = document.getElementById('score-counter');
+            const scoreLabel = document.getElementById('score-label');
+
+            if (viewName === 'index') {
+                document.getElementById('view-index').classList.remove('hidden');
+                document.title = "徐少勇SDGs 性別平權";
+                pageTitle.textContent = "徐少勇SDGs 性別平權";
+                scoreLabel.textContent = "答對題數：";
+                scoreCounter.textContent = `${scoreL1} / 10`;
+            } else if (viewName === 'level2') {
+                document.getElementById('view-level2').classList.remove('hidden');
+                document.title = "SDGs 性別平權-情境題";
+                pageTitle.textContent = "SDGs 性別平權-情境題";
+                scoreLabel.textContent = "答對題數：";
+                scoreCounter.textContent = `${scoreL2} / 6`;
+                initLevel2Flowers();
+            } else if (viewName === 'certificate') {
+                document.getElementById('view-certificate').classList.remove('hidden');
+                document.title = "SDGs 性別平權小達人 - 學習證書";
+                pageTitle.textContent = "SDGs 性別平權 - 榮譽證書";
+                scoreLabel.textContent = "關卡狀態：";
+                scoreCounter.textContent = "全數通關！";
+                
+                // Set default date
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('cert-date').textContent = today;
+            }
+        }
+
+        // -------------------------------------------------------------
+        // LEVEL 1 LOGIC (Huts & Questions)
+        // -------------------------------------------------------------
+        function openHutQuestion(hutIdx) {
+            if (completedHuts[hutIdx]) {
+                alert("這座茅草屋的題組已經完成囉！");
+                return;
+            }
+
+            const qData = questionsL1[hutIdx];
+            document.getElementById('q1-number').textContent = `題目 ${hutIdx + 1} / 10`;
+            document.getElementById('q1-text').textContent = qData.q;
+            
+            const optionsBox = document.getElementById('q1-options');
+            optionsBox.innerHTML = qData.options.map((opt, oIdx) => `
+                <button onclick="answerL1(${hutIdx}, ${oIdx})" 
+                    class="w-full text-left p-3.5 rounded-2xl border-2 border-slate-200 hover:border-teal-500 hover:bg-teal-50/50 font-bold text-slate-700 transition flex items-center justify-between">
+                    <span>${String.fromCharCode(65 + oIdx)}. ${opt}</span>
+                    <i class="fa-solid fa-chevron-right text-slate-300"></i>
+                </button>
+            `).join('');
+
+            document.getElementById('modal-q1').classList.remove('hidden');
+        }
+
+        function answerL1(hutIdx, chosenIdx) {
+            closeModal('modal-q1');
+            completedHuts[hutIdx] = true;
+            
+            // Mark Hut as Completed Badge
+            document.getElementById(`hut-badge-${hutIdx}`).classList.remove('hidden');
+            document.getElementById(`hut-${hutIdx}`).classList.add('opacity-80');
+
+            const isCorrect = (chosenIdx === questionsL1[hutIdx].ans);
+            if (isCorrect) scoreL1++;
+
+            document.getElementById('score-counter').textContent = `${scoreL1} / 10`;
+
+            // Check if all 10 completed
+            const totalDone = completedHuts.filter(Boolean).length;
+            if (totalDone === 10) {
+                setTimeout(showL1Result, 500);
+            }
+        }
+
+        function showL1Result() {
+            const passed = scoreL1 >= 8;
+            const iconBox = document.getElementById('result-icon-box');
+            const title = document.getElementById('result-title');
+            const desc = document.getElementById('result-desc');
+            const actions = document.getElementById('result-actions');
+
+            if (passed) {
+                iconBox.className = "w-20 h-20 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-4xl shadow-inner mx-auto";
+                iconBox.innerHTML = `<i class="fa-solid fa-trophy"></i>`;
+                title.textContent = "挑戰成功！";
+                desc.textContent = `恭喜您在村莊問答中獲得 ${scoreL1} / 10 分（達到8分通關門檻）！已準備好進入下一關情境挑戰。`;
+                actions.innerHTML = `
+                    <button onclick="closeModal('modal-result'); switchView('level2');" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold py-3.5 rounded-2xl shadow-lg hover:scale-[1.02] transition">
+                        前往下一关 (level2.html)
+                    </button>
+                `;
+            } else {
+                iconBox.className = "w-20 h-20 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-4xl shadow-inner mx-auto";
+                iconBox.innerHTML = `<i class="fa-solid fa-rotate-right"></i>`;
+                title.textContent = "未達通關標準";
+                desc.textContent = `您的得分為 ${scoreL1} / 10 分，需達到 8 分以上才能通關。請再接再厲！`;
+                actions.innerHTML = `
+                    <button onclick="resetL1(); closeModal('modal-result');" class="w-full bg-slate-800 text-white font-bold py-3.5 rounded-2xl shadow-lg hover:bg-slate-900 transition">
+                        重新挑戰 (Reload)
+                    </button>
+                `;
+            }
+
+            document.getElementById('modal-result').classList.remove('hidden');
+        }
+
+        function resetL1() {
+            scoreL1 = 0;
+            completedHuts = new Array(10).fill(false);
+            for(let i=0; i<10; i++) {
+                document.getElementById(`hut-badge-${i}`).classList.add('hidden');
+                document.getElementById(`hut-${i}`).classList.remove('opacity-80');
+            }
+            document.getElementById('score-counter').textContent = `0 / 10`;
+        }
+
+        // -------------------------------------------------------------
+        // LEVEL 2 LOGIC (Flowers & Drag-and-Drop)
+        // -------------------------------------------------------------
+        function initLevel2Flowers() {
+            const container = document.getElementById('flower-container');
+            container.innerHTML = '';
+
+            // Random horizontal positions for 3 flowers in the lower area
+            const positions = [15, 48, 78]; // percentage offsets
+            
+            flowerSetsL2.forEach((fSet, idx) => {
+                const randomOffset = (Math.random() * 8 - 4).toFixed(1); // slight randomness
+                const leftPos = Math.max(5, Math.min(85, positions[idx] + parseFloat(randomOffset)));
+                
+                const flowerEl = document.createElement('div');
+                flowerEl.className = "absolute bottom-4 animate-float cursor-pointer group flex flex-col items-center transition";
+                flowerEl.style.left = `${leftPos}%`;
+                flowerEl.onclick = () => openFlowerModal(fSet.id);
+
+                flowerEl.innerHTML = `
+                    <div class="relative drop-shadow-lg group-hover:scale-125 transition duration-300">
+                        <i class="fa-solid fa-flower text-5xl sm:text-6xl text-pink-500 group-hover:text-pink-600"></i>
+                        <div class="absolute inset-0 flex items-center justify-center text-yellow-300 text-xl font-black">
+                            ${idx + 1}
+                        </div>
+                    </div>
+                    <span class="mt-1 bg-white/90 text-slate-800 font-bold text-xs px-2.5 py-0.5 rounded-full shadow border border-pink-300">
+                        題組 ${idx + 1}
+                    </span>
+                `;
+                container.appendChild(flowerEl);
+            });
+        }
+
+        function openFlowerModal(setId) {
+            const fSet = flowerSetsL2.find(s => s.id === setId);
+            document.getElementById('flower-title').textContent = fSet.title;
+            
+            const cardsContainer = document.getElementById('flower-cards-container');
+            cardsContainer.innerHTML = fSet.items.map(item => {
+                const currentStatus = classifiedItems[item.id];
+                return `
+                    <div id="card-${item.id}" draggable="true" ondragstart="handleDragStart(event, '${item.id}')"
+                        class="p-4 bg-amber-50 border-2 border-amber-200 rounded-2xl shadow-sm flex flex-col gap-3 cursor-grab active:cursor-grabbing">
+                        <p class="font-bold text-slate-800 text-sm sm:text-base">${item.text}</p>
+                        
+                        <div class="flex items-center justify-between pt-2 border-t border-amber-200/60 text-xs">
+                            <span class="text-slate-400 font-medium">拖曳或選擇分類：</span>
+                            <div class="flex gap-2">
+                                <button onclick="classifyItem('${item.id}', 'equal')" 
+                                    class="px-3 py-1.5 rounded-xl font-bold transition ${currentStatus === 'equal' ? 'bg-emerald-600 text-white' : 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200'}">
+                                    性別平等
+                                </button>
+                                <button onclick="classifyItem('${item.id}', 'unequal')" 
+                                    class="px-3 py-1.5 rounded-xl font-bold transition ${currentStatus === 'unequal' ? 'bg-rose-600 text-white' : 'bg-rose-100 text-rose-700 hover:bg-rose-200'}">
+                                    性別不平等
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('modal-flower').classList.remove('hidden');
+        }
+
+        // HTML5 Drag and Drop Handlers
+        function handleDragStart(e, itemId) {
+            e.dataTransfer.setData("text/plain", itemId);
+        }
+
+        function allowDrop(e) {
+            e.preventDefault();
+        }
+
+        function handleDrop(e, targetBox) {
+            e.preventDefault();
+            const itemId = e.dataTransfer.getData("text/plain");
+            if (itemId) {
+                classifyItem(itemId, targetBox);
+            }
+        }
+
+        function classifyItem(itemId, boxType) {
+            classifiedItems[itemId] = boxType;
+            
+            // Find item object details
+            let foundItem = null;
+            flowerSetsL2.forEach(s => {
+                const match = s.items.find(i => i.id === itemId);
+                if (match) foundItem = match;
+            });
+
+            if (!foundItem) return;
+
+            // Update UI drop containers
+            const boxContainer = (boxType === 'equal') ? document.getElementById('box-equal-items') : document.getElementById('box-unequal-items');
+            
+            // Remove existing rendered chip if re-classifying
+            const existingChip = document.getElementById(`chip-${itemId}`);
+            if (existingChip) existingChip.remove();
+
+            const chip = document.createElement('div');
+            chip.id = `chip-${itemId}`;
+            chip.className = `p-2.5 text-xs font-bold rounded-xl border flex items-center justify-between gap-2 w-full animate-fade-in ${
+                boxType === 'equal' ? 'bg-emerald-100 text-emerald-900 border-emerald-300' : 'bg-rose-100 text-rose-900 border-rose-300'
+            }`;
+            chip.innerHTML = `
+                <span>${foundItem.text}</span>
+                <i class="fa-solid fa-check text-sm shrink-0"></i>
+            `;
+            boxContainer.appendChild(chip);
+
+            // Re-calculate Level 2 Score
+            calculateL2Score();
+
+            // Refresh cards modal view if open
+            const cardEl = document.getElementById(`card-${itemId}`);
+            if (cardEl) {
+                openFlowerModal(flowerSetsL2.find(s => s.items.some(i => i.id === itemId)).id);
+            }
+        }
+
+        function calculateL2Score() {
+            scoreL2 = 0;
+            let totalClassified = 0;
+
+            flowerSetsL2.forEach(s => {
+                s.items.forEach(item => {
+                    if (classifiedItems[item.id]) {
+                        totalClassified++;
+                        if (classifiedItems[item.id] === item.type) {
+                            scoreL2++;
+                        }
+                    }
+                });
+            });
+
+            document.getElementById('score-counter').textContent = `${scoreL2} / 6`;
+
+            // If all 6 items classified, show final rank evaluation
+            if (totalClassified === 6) {
+                setTimeout(showL2Result, 600);
+            }
+        }
+
+        function showL2Result() {
+            const iconBox = document.getElementById('result-icon-box');
+            const title = document.getElementById('result-title');
+            const desc = document.getElementById('result-desc');
+            const actions = document.getElementById('result-actions');
+
+            let gradeTitle = "";
+            let gradeDesc = "";
+            let badgeClass = "";
+
+            if (scoreL2 <= 2) {
+                gradeTitle = "等級：再加油";
+                gradeDesc = `您答對了 ${scoreL2} / 6 題。對於性別平權概念還需要多加複習喔！點擊下方按鈕重新挑戰。`;
+                badgeClass = "bg-amber-100 text-amber-600";
+                iconBox.innerHTML = `<i class="fa-solid fa-seedling"></i>`;
+            } else if (scoreL2 <= 5) {
+                gradeTitle = "等級：進步中";
+                gradeDesc = `您答對了 ${scoreL2} / 6 題。表現相當不錯，距離平權達人只差一點點了！`;
+                badgeClass = "bg-sky-100 text-sky-600";
+                iconBox.innerHTML = `<i class="fa-solid fa-person-rising-badge"></i>`;
+            } else {
+                gradeTitle = "等級：平權達人";
+                gradeDesc = `太棒了！6 題全數答對！您具備非常完善的 SDGs 5 性別平權素養，可立即獲得專屬學習證書！`;
+                badgeClass = "bg-emerald-100 text-emerald-600";
+                iconBox.innerHTML = `<i class="fa-solid fa-medal"></i>`;
+            }
+
+            iconBox.className = `w-20 h-20 rounded-full flex items-center justify-center text-4xl shadow-inner mx-auto ${badgeClass}`;
+            title.textContent = gradeTitle;
+            desc.textContent = gradeDesc;
+
+            if (scoreL2 === 6) {
+                actions.innerHTML = `
+                    <button onclick="closeModal('modal-result'); switchView('certificate');" 
+                        class="w-full bg-gradient-to-r from-teal-500 to-emerald-600 text-white font-bold py-3.5 rounded-2xl shadow-lg hover:scale-[1.02] transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-certificate"></i>
+                        <span>獲得學習證書 (certificate.html)</span>
+                    </button>
+                `;
+            } else {
+                actions.innerHTML = `
+                    <button onclick="resetL2(); closeModal('modal-result');" 
+                        class="w-full bg-slate-800 text-white font-bold py-3.5 rounded-2xl shadow-lg hover:bg-slate-900 transition">
+                        再次挑戰 (Reload Level 2)
+                    </button>
+                `;
+            }
+
+            document.getElementById('modal-result').classList.remove('hidden');
+        }
+
+        function resetL2() {
+            scoreL2 = 0;
+            classifiedItems = {};
+            document.getElementById('box-equal-items').innerHTML = '';
+            document.getElementById('box-unequal-items').innerHTML = '';
+            document.getElementById('score-counter').textContent = `0 / 6`;
+            initLevel2Flowers();
+        }
+
+        // -------------------------------------------------------------
+        // CERTIFICATE NAME SYNC LOGIC
+        // -------------------------------------------------------------
+        function updateCertName(val) {
+            const displayEl = document.getElementById('cert-display-name');
+            displayEl.textContent = val.trim() !== '' ? val : '徐少勇';
+        }
+
+        // Utility Modal Closer
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        // Initial Load setup
+        window.onload = () => {
+            switchView('index');
+        };
+    </script>
+</body>
+</html>
